@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "area_of_interest")
-public class AreaOfInterest {
+public class AreaOfInterestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,18 +26,18 @@ public class AreaOfInterest {
     private List<MentorEntity> mentorEntities;
 
     @OneToMany(mappedBy = "areaOfInterest")
-    private List<Session> sessions;
+    private List<SessionEntity> sessionEntities;
 
-    public AreaOfInterest() {
+    public AreaOfInterestEntity() {
     }
 
-    public AreaOfInterest(Long id, String name, String description, List<StudentEntity> studentEntities, List<MentorEntity> mentorEntities, List<Session> sessions) {
+    public AreaOfInterestEntity(Long id, String name, String description, List<StudentEntity> studentEntities, List<MentorEntity> mentorEntities, List<SessionEntity> sessionEntities) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.studentEntities = studentEntities;
         this.mentorEntities = mentorEntities;
-        this.sessions = sessions;
+        this.sessionEntities = sessionEntities;
     }
 
     public String getName() {
@@ -80,11 +80,11 @@ public class AreaOfInterest {
         this.mentorEntities = mentorEntities;
     }
 
-    public List<Session> getSessions() {
-        return sessions;
+    public List<SessionEntity> getSessions() {
+        return sessionEntities;
     }
 
-    public void setSessions(List<Session> sessions) {
-        this.sessions = sessions;
+    public void setSessions(List<SessionEntity> sessionEntities) {
+        this.sessionEntities = sessionEntities;
     }
 }

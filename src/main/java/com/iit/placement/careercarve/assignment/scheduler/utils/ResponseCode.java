@@ -8,6 +8,7 @@ public enum ResponseCode {
     SERVER_INTERNAL_SERVER_ERROR(501, "Internal_Server_error"),
     CLIENT_USER_ID_NOT_EXISTING(1012, "User_is_not_registered_please_register_the_user"),
     CLIENT_INVALID_REQ_PARAM_USER_NAME(1013,"Invalid_user_name"),
+    CLIENT_INVALID_REQ_PARAM_USER_EMAIL(2000, "Invalid Email_Id"),
     CLIENT_INVALID_REQ_PARAM_MOBILE_NUM(1014,"Invalid_Mobile_Number"),
     CLIENT_USER_MOBILE_EXISTING(1015, "Mobile_Number_already_In_Use_please_register_with_different_Mobile_number"),
     CLIENT_INVALID_REQ_PARAM_USER_TYPE(1016,"Invalid_User_Type"),

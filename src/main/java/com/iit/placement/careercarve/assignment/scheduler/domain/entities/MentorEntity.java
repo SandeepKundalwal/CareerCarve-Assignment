@@ -46,11 +46,11 @@ public class MentorEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "area_of_interest_id")
     )
     @JsonIgnore
-    private List<AreaOfInterest> areasOfInterest;
+    private List<AreaOfInterestEntity> areasOfInterest;
 
     @OneToMany(mappedBy = "mentorEntity")
     @JsonIgnore
-    private List<Session> sessions;
+    private List<SessionEntity> sessionEntities;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
@@ -62,7 +62,7 @@ public class MentorEntity implements Serializable {
     public MentorEntity() {
     }
 
-    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<Availability> availabilities, List<AreaOfInterest> areasOfInterest, List<Session> sessions, Date createdAt, Date updatedAt) {
+    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<Availability> availabilities, List<AreaOfInterestEntity> areasOfInterest, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -72,7 +72,7 @@ public class MentorEntity implements Serializable {
         this.jobTitle = jobTitle;
         this.availabilities = availabilities;
         this.areasOfInterest = areasOfInterest;
-        this.sessions = sessions;
+        this.sessionEntities = sessionEntities;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -141,20 +141,20 @@ public class MentorEntity implements Serializable {
         this.availabilities = availabilities;
     }
 
-    public List<AreaOfInterest> getAreasOfInterest() {
+    public List<AreaOfInterestEntity> getAreasOfInterest() {
         return areasOfInterest;
     }
 
-    public void setAreasOfInterest(List<AreaOfInterest> areasOfInterest) {
+    public void setAreasOfInterest(List<AreaOfInterestEntity> areasOfInterest) {
         this.areasOfInterest = areasOfInterest;
     }
 
-    public List<Session> getSessions() {
-        return sessions;
+    public List<SessionEntity> getSessions() {
+        return sessionEntities;
     }
 
-    public void setSessions(List<Session> sessions) {
-        this.sessions = sessions;
+    public void setSessions(List<SessionEntity> sessionEntities) {
+        this.sessionEntities = sessionEntities;
     }
 
     @PrePersist

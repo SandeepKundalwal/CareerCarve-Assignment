@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class StudentPasswordChange {
-    @JsonProperty("student_id")
-    private String studentId;
+    @JsonProperty("username")
+    private String username;
 
     @JsonProperty("old_password")
     private String oldPassword;
@@ -16,16 +16,18 @@ public class StudentPasswordChange {
     public StudentPasswordChange() {
     }
 
-    public StudentPasswordChange(String studentId, String oldPassword, String newPassword) {
-        this.studentId = studentId;
+    public StudentPasswordChange(String username, String oldPassword, String newPassword) {
+        this.username = username;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
     }
 
+    public String getUserName(){
+        return username;
+    }
 
-
-    public void setUserId(String userId) {
-        this.studentId = userId;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

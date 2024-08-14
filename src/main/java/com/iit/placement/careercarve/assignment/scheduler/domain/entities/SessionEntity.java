@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "session")
-public class Session {
+public class SessionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +22,13 @@ public class Session {
 
     @ManyToOne
     @JoinColumn(name = "area_of_interest_id")
-    private AreaOfInterest areaOfInterest;
+    private AreaOfInterestEntity areaOfInterestEntity;
 
     @Column(name = "session_start_time")
-    private java.time.LocalDateTime sessionStartTime;
+    private LocalDateTime sessionStartTime;
 
     @Column(name = "session_end_time")
-    private java.time.LocalDateTime sessionEndTime;
+    private LocalDateTime sessionEndTime;
 
     @Column(name = "duration")
     private int duration;
@@ -36,14 +36,14 @@ public class Session {
     @Enumerated(EnumType.STRING)
     private SessionStatus status;
 
-    public Session() {
+    public SessionEntity() {
     }
 
-    public Session(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterest areaOfInterest, LocalDateTime sessionStartTime, LocalDateTime sessionEndTime, int duration, SessionStatus status) {
+    public SessionEntity(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterestEntity areaOfInterestEntity, LocalDateTime sessionStartTime, LocalDateTime sessionEndTime, int duration, SessionStatus status) {
         this.id = id;
         this.studentEntity = studentEntity;
         this.mentorEntity = mentorEntity;
-        this.areaOfInterest = areaOfInterest;
+        this.areaOfInterestEntity = areaOfInterestEntity;
         this.sessionStartTime = sessionStartTime;
         this.sessionEndTime = sessionEndTime;
         this.duration = duration;
@@ -74,12 +74,12 @@ public class Session {
         this.mentorEntity = mentorEntity;
     }
 
-    public AreaOfInterest getAreaOfInterest() {
-        return areaOfInterest;
+    public AreaOfInterestEntity getAreaOfInterest() {
+        return areaOfInterestEntity;
     }
 
-    public void setAreaOfInterest(AreaOfInterest areaOfInterest) {
-        this.areaOfInterest = areaOfInterest;
+    public void setAreaOfInterest(AreaOfInterestEntity areaOfInterestEntity) {
+        this.areaOfInterestEntity = areaOfInterestEntity;
     }
 
     public LocalDateTime getSessionStartTime() {

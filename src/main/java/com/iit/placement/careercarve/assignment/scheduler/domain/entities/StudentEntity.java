@@ -3,7 +3,6 @@ package com.iit.placement.careercarve.assignment.scheduler.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import jakarta.persistence.*;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.Date;
 import java.util.List;
@@ -34,11 +33,11 @@ public class StudentEntity {
 
     @ManyToOne
     @JoinColumn(name = "area_of_interest_id")
-    private AreaOfInterest areaOfInterest;
+    private AreaOfInterestEntity areaOfInterestEntity;
 
     @OneToMany(mappedBy = "studentEntity")
     @JsonIgnore
-    private List<Session> sessions;
+    private List<SessionEntity> sessionEntities;
 
     @Column(name="date_created", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false, updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,15 +50,15 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(String name, Long id, String email, String password, String mobileNo, String collegeName, AreaOfInterest areaOfInterest, List<Session> sessions, Date createdAt, Date updatedAt) {
+    public StudentEntity(String name, Long id, String email, String password, String mobileNo, String collegeName, AreaOfInterestEntity areaOfInterestEntity, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
         this.name = name;
         this.id = id;
         this.email = email;
         this.password = password;
         this.mobileNo = mobileNo;
         this.collegeName = collegeName;
-        this.areaOfInterest = areaOfInterest;
-        this.sessions = sessions;
+        this.areaOfInterestEntity = areaOfInterestEntity;
+        this.sessionEntities = sessionEntities;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -72,10 +71,6 @@ public class StudentEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new java.util.Date();
-    }
-
-    protected void setPassword(String password){
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public Long getId() {
@@ -106,6 +101,10 @@ public class StudentEntity {
         return password;
     }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     public String getMobileNo() {
         return mobileNo;
     }
@@ -122,19 +121,19 @@ public class StudentEntity {
         this.collegeName = collegeName;
     }
 
-    public AreaOfInterest getAreaOfInterest() {
-        return areaOfInterest;
+    public AreaOfInterestEntity getAreaOfInterest() {
+        return areaOfInterestEntity;
     }
 
-    public void setAreaOfInterest(AreaOfInterest areaOfInterest) {
-        this.areaOfInterest = areaOfInterest;
+    public void setAreaOfInterest(AreaOfInterestEntity areaOfInterestEntity) {
+        this.areaOfInterestEntity = areaOfInterestEntity;
     }
 
-    public List<Session> getSessions() {
-        return sessions;
+    public List<SessionEntity> getSessions() {
+        return sessionEntities;
     }
 
-    public void setSessions(List<Session> sessions) {
-        this.sessions = sessions;
+    public void setSessions(List<SessionEntity> sessionEntities) {
+        this.sessionEntities = sessionEntities;
     }
 }
