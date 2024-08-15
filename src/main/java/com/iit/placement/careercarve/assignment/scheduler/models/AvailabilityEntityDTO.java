@@ -1,37 +1,20 @@
-package com.iit.placement.careercarve.assignment.scheduler.domain.entities;
+package com.iit.placement.careercarve.assignment.scheduler.models;
 
-import jakarta.persistence.*;
+import com.iit.placement.careercarve.assignment.scheduler.domain.entities.DayOfWeek;
 
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "availability")
-public class Availability {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "availability_id")
+public class AvailabilityEntityDTO {
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "mentor_id")
-    private MentorEntity mentorEntity;
-
-    @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
-
-    @Column(name = "available_from")
     private java.time.LocalTime availableFrom;
-
-    @Column(name = "available_till")
     private java.time.LocalTime availableTo;
 
-    public Availability() {
+    public AvailabilityEntityDTO() {
     }
 
-    public Availability(Long id, MentorEntity mentorEntity, DayOfWeek dayOfWeek, LocalTime availableFrom, LocalTime availableTo) {
+    public AvailabilityEntityDTO(Long id, DayOfWeek dayOfWeek, LocalTime availableFrom, LocalTime availableTo) {
         this.id = id;
-        this.mentorEntity = mentorEntity;
         this.dayOfWeek = dayOfWeek;
         this.availableFrom = availableFrom;
         this.availableTo = availableTo;
@@ -43,14 +26,6 @@ public class Availability {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public MentorEntity getMentorEntity() {
-        return mentorEntity;
-    }
-
-    public void setMentorEntity(MentorEntity mentorEntity) {
-        this.mentorEntity = mentorEntity;
     }
 
     public DayOfWeek getDayOfWeek() {

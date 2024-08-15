@@ -2,17 +2,17 @@ package com.iit.placement.careercarve.assignment.scheduler.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StudentLogin {
+public class UserLogin {
     @JsonProperty("username")
     private String userName;
 
     @JsonProperty("password")
     private String password;
 
-    public StudentLogin() {
+    public UserLogin() {
     }
 
-    public StudentLogin(String userName, String password) {
+    public UserLogin(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }

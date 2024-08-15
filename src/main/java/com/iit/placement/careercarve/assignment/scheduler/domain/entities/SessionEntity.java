@@ -1,5 +1,6 @@
 package com.iit.placement.careercarve.assignment.scheduler.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,24 +15,24 @@ public class SessionEntity {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
+    @JsonIgnore
     private StudentEntity studentEntity;
 
     @ManyToOne
     @JoinColumn(name = "mentor_id")
+    @JsonIgnore
     private MentorEntity mentorEntity;
 
     @ManyToOne
     @JoinColumn(name = "area_of_interest_id")
+    @JsonIgnore
     private AreaOfInterestEntity areaOfInterestEntity;
 
     @Column(name = "session_start_time")
     private LocalDateTime sessionStartTime;
 
-    @Column(name = "session_end_time")
-    private LocalDateTime sessionEndTime;
-
     @Column(name = "duration")
-    private int duration;
+    private long duration;
 
     @Enumerated(EnumType.STRING)
     private SessionStatus status;
@@ -39,13 +40,12 @@ public class SessionEntity {
     public SessionEntity() {
     }
 
-    public SessionEntity(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterestEntity areaOfInterestEntity, LocalDateTime sessionStartTime, LocalDateTime sessionEndTime, int duration, SessionStatus status) {
+    public SessionEntity(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterestEntity areaOfInterestEntity, LocalDateTime sessionStartTime, long duration, SessionStatus status) {
         this.id = id;
         this.studentEntity = studentEntity;
         this.mentorEntity = mentorEntity;
         this.areaOfInterestEntity = areaOfInterestEntity;
         this.sessionStartTime = sessionStartTime;
-        this.sessionEndTime = sessionEndTime;
         this.duration = duration;
         this.status = status;
     }
@@ -90,19 +90,11 @@ public class SessionEntity {
         this.sessionStartTime = sessionStartTime;
     }
 
-    public LocalDateTime getSessionEndTime() {
-        return sessionEndTime;
-    }
-
-    public void setSessionEndTime(LocalDateTime sessionEndTime) {
-        this.sessionEndTime = sessionEndTime;
-    }
-
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 

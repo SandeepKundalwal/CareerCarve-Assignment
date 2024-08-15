@@ -33,6 +33,7 @@ public class StudentEntity {
 
     @ManyToOne
     @JoinColumn(name = "area_of_interest_id")
+    @JsonIgnore
     private AreaOfInterestEntity areaOfInterestEntity;
 
     @OneToMany(mappedBy = "studentEntity")

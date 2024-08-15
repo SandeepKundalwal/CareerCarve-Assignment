@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "mentor")
-public class MentorEntity implements Serializable {
+public class MentorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class MentorEntity implements Serializable {
 
     @OneToMany(mappedBy = "mentorEntity")
     @JsonIgnore
-    private List<Availability> availabilities;
+    private List<AvailabilityEntity> availabilities;
 
     @ManyToMany
     @JoinTable(
@@ -46,7 +46,7 @@ public class MentorEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "area_of_interest_id")
     )
     @JsonIgnore
-    private List<AreaOfInterestEntity> areasOfInterest;
+    private List<AreaOfInterestEntity> areasOfInterestEntity;
 
     @OneToMany(mappedBy = "mentorEntity")
     @JsonIgnore
@@ -62,7 +62,7 @@ public class MentorEntity implements Serializable {
     public MentorEntity() {
     }
 
-    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<Availability> availabilities, List<AreaOfInterestEntity> areasOfInterest, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
+    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<AvailabilityEntity> availabilities, List<AreaOfInterestEntity> areasOfInterestEntity, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -71,7 +71,7 @@ public class MentorEntity implements Serializable {
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.availabilities = availabilities;
-        this.areasOfInterest = areasOfInterest;
+        this.areasOfInterestEntity = areasOfInterestEntity;
         this.sessionEntities = sessionEntities;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -133,20 +133,20 @@ public class MentorEntity implements Serializable {
         this.jobTitle = jobTitle;
     }
 
-    public List<Availability> getAvailabilities() {
+    public List<AvailabilityEntity> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<Availability> availabilities) {
+    public void setAvailabilities(List<AvailabilityEntity> availabilities) {
         this.availabilities = availabilities;
     }
 
     public List<AreaOfInterestEntity> getAreasOfInterest() {
-        return areasOfInterest;
+        return areasOfInterestEntity;
     }
 
-    public void setAreasOfInterest(List<AreaOfInterestEntity> areasOfInterest) {
-        this.areasOfInterest = areasOfInterest;
+    public void setAreasOfInterest(List<AreaOfInterestEntity> areasOfInterestEntity) {
+        this.areasOfInterestEntity = areasOfInterestEntity;
     }
 
     public List<SessionEntity> getSessions() {

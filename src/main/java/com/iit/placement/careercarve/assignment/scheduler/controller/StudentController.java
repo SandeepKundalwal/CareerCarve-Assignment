@@ -1,17 +1,12 @@
 package com.iit.placement.careercarve.assignment.scheduler.controller;
 
 
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.StudentEntity;
 import com.iit.placement.careercarve.assignment.scheduler.models.*;
 import com.iit.placement.careercarve.assignment.scheduler.services.StudentService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class StudentController {
 
     private final StudentService studentService;
@@ -21,18 +16,18 @@ public class StudentController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseData studentLogin(@RequestBody StudentLogin studentInfo){
+    public ResponseData studentLogin(@RequestBody UserLogin studentInfo){
         return studentService.login(studentInfo);
     }
 
 
     @PostMapping(path = "/registration")
-    public ResponseData createStudent(@RequestBody StudentRegistration studentInfo){
+    public ResponseData createStudent(@RequestBody UserRegistration studentInfo){
         return studentService.save(studentInfo);
     }
 
     @PostMapping(path = "/change-password")
-    public ResponseData changePassword(@RequestBody StudentPasswordChange studentInfo){
+    public ResponseData changePassword(@RequestBody UserPasswordChange studentInfo){
         return studentService.changePassword(studentInfo);
     }
 
@@ -45,6 +40,4 @@ public class StudentController {
     public ResponseData findMentorByAreaOfInterest(@PathVariable Long areaOfInterestId){
         return null;
     }
-
-
 }

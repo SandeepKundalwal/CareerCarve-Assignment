@@ -12,20 +12,21 @@ public class User {
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("email")
+    private String email;
+
     @JsonProperty("mobile_num")
     private String mobileNum;
-
-    @JsonProperty("user_type")
-    private String userType;
 
     public User() {
     }
 
-    public User(Long userId, String userName, String mobileNum, String userType) {
+    public User(Long userId, String userName, String email, String mobileNum) {
         this.userId = userId;
         this.userName = userName;
         this.mobileNum = mobileNum;
-        this.userType = userType;
+        this.email = email;
     }
 
     public Long getUserId() {
@@ -60,11 +61,11 @@ public class User {
         this.mobileNum = mobileNum;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

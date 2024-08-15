@@ -1,5 +1,6 @@
 package com.iit.placement.careercarve.assignment.scheduler.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,13 +20,16 @@ public class AreaOfInterestEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "areaOfInterest")
+    @OneToMany(mappedBy = "areaOfInterestEntity")
+    @JsonIgnore
     private List<StudentEntity> studentEntities;
 
-    @ManyToMany(mappedBy = "areasOfInterest")
+    @ManyToMany(mappedBy = "areasOfInterestEntity")
+    @JsonIgnore
     private List<MentorEntity> mentorEntities;
 
-    @OneToMany(mappedBy = "areaOfInterest")
+    @OneToMany(mappedBy = "areaOfInterestEntity")
+    @JsonIgnore
     private List<SessionEntity> sessionEntities;
 
     public AreaOfInterestEntity() {

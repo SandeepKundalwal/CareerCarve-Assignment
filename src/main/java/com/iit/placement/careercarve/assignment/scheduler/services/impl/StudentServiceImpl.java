@@ -30,11 +30,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResponseData save(StudentRegistration student) {
-        String name = student.getStudentName();
+    public ResponseData save(UserRegistration student) {
+        String name = student.getName();
         String password = student.getPassword();
-        String email = student.getStudentEmail();
-        String mobileNo = student.getStudentMobileNo();
+        String email = student.getEmail();
+        String mobileNo = student.getMobileNo();
 
         if (isEmpty(name)) {
             throw new CustomApplicationException(HttpStatus.BAD_REQUEST, ResponseCode.CLIENT_INVALID_REQ_PARAM_USER_NAME.toString());
@@ -74,7 +74,10 @@ public class StudentServiceImpl implements StudentService {
 
                 if(studentEntity == null){
                     newStudentEntity = studentRepository.save(newStudentEntity);
-                    User userInfo = new User(newStudentEntity.getId(), newStudentEntity.getName(), newStudentEntity.getEmail(), newStudentEntity.getMobileNo());
+                    User userInfo = new User(newStudentEntity.getId(),
+                            newStudentEntity.getName(),
+                            newStudentEntity.getEmail(),
+                            newStudentEntity.getMobileNo());
 
                     retData.put("user", userInfo);
                     responseData = new ResponseData(Response.Status.CREATED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
@@ -92,15 +95,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean isExists(Long id) {
-        return studentRepository.existsById(id);
-    }
-
-    @Override
-    public ResponseData changePassword(StudentPasswordChange studentPasswordChange){
-        String userName = studentPasswordChange.getUserName();
-        String oldPassword = studentPasswordChange.getPassword();
-        String newPassword = studentPasswordChange.getNewPassword();
+    public ResponseData changePassword(UserPasswordChange userPasswordChange){
+        String userName = userPasswordChange.getUserName();
+        String oldPassword = userPasswordChange.getPassword();
+        String newPassword = userPasswordChange.getNewPassword();
 
         Map<String, Object> retData = new LinkedHashMap<>();
         StudentEntity studentEntity = null;
@@ -117,7 +115,10 @@ public class StudentServiceImpl implements StudentService {
                 String hashedPassword = studentEntity.getPassword();
                 boolean validCredentials = BCrypt.checkpw(oldPassword, hashedPassword);
                 if(validCredentials){
-                    User userInfo = new User(studentEntity.getId(), studentEntity.getName(), studentEntity.getEmail(), studentEntity.getMobileNo());
+                    User userInfo = new User(studentEntity.getId(),
+                            studentEntity.getName(),
+                            studentEntity.getEmail(),
+                            studentEntity.getMobileNo());
                     studentEntity.setPassword(newPassword);
                     studentRepository.save(studentEntity);
                     retData.put("user", userInfo);
@@ -135,11 +136,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void delete(Long id) {
-        studentRepository.deleteById(id);
+        try{
+            studentRepository.deleteById(id);
+        } catch (DataAccessException e){
+            throw new CustomApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.SERVER_INTERNAL_SERVER_ERROR.toString());
+        }
     }
 
     @Override
-    public ResponseData login(StudentLogin studentInfo) {
+    public ResponseData login(UserLogin studentInfo) {
         String userName = studentInfo.getUserName();
         String password = studentInfo.getPassword();
 
@@ -158,7 +163,10 @@ public class StudentServiceImpl implements StudentService {
                 String hashedPassword = studentEntity.getPassword();
                 boolean validCredentials = BCrypt.checkpw(password, hashedPassword);
                 if(validCredentials){
-                    User userInfo = new User(studentEntity.getId(), studentEntity.getName(), studentEntity.getEmail(), studentEntity.getMobileNo());
+                    User userInfo = new User(studentEntity.getId(),
+                            studentEntity.getName(),
+                            studentEntity.getEmail(),
+                            studentEntity.getMobileNo());
                     retData.put("user", userInfo);
                     responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
                 } else {
@@ -193,11 +201,11 @@ public class StudentServiceImpl implements StudentService {
             throw new CustomApplicationException(HttpStatus.UNAUTHORIZED, ResponseCode.CLIENT_INVALID_REQ_PARAM_USERID_PASSWORD.toString());
         } else {
             try{
-                if(!userName.isEmpty()){
+                if(userName != null){
                     studentEntity.setName(userName);
                 }
 
-                if(!userMobileNo.isEmpty()){
+                if(userMobileNo  != null){
                     if (userMobileNo.length() != Utils.MOB_NUM_LEN || !StringUtils.isNumeric(userMobileNo)) {
                         throw new CustomApplicationException(HttpStatus.BAD_REQUEST, ResponseCode.CLIENT_INVALID_REQ_PARAM_MOBILE_NUM.toString());
                     } else {
@@ -210,7 +218,7 @@ public class StudentServiceImpl implements StudentService {
                     }
                 }
 
-                if(!userCollegeName.isEmpty()){
+                if(userCollegeName != null){
                     studentEntity.setCollegeName(userCollegeName);
                 }
 

@@ -1,34 +1,29 @@
 package com.iit.placement.careercarve.assignment.scheduler.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AreaOfInterestEntity;
-
-public class StudentUpdate {
-
-    @JsonProperty("name")
+public class StudentEntityDTO {
+    private Long id;
     private String name;
-
-    @JsonProperty("email")
     private String email;
-
-    @JsonProperty("mobile_no")
     private String mobileNo;
-
-    @JsonProperty("college_name")
     private String collegeName;
 
-    @JsonProperty("area_of_interest")
-    private AreaOfInterestEntity areaOfInterestEntity;
-
-    public StudentUpdate() {
+    public StudentEntityDTO() {
     }
 
-    public StudentUpdate(String name, String email, String mobileNo, String collegeName, AreaOfInterestEntity areaOfInterestEntity) {
+    public StudentEntityDTO(Long id, String name, String email, String mobileNo, String collegeName) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.mobileNo = mobileNo;
         this.collegeName = collegeName;
-        this.areaOfInterestEntity = areaOfInterestEntity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -61,13 +56,5 @@ public class StudentUpdate {
 
     public void setCollegeName(String collegeName) {
         this.collegeName = collegeName;
-    }
-
-    public AreaOfInterestEntity getAreaOfInterest() {
-        return areaOfInterestEntity;
-    }
-
-    public void setAreaOfInterest(AreaOfInterestEntity areaOfInterestEntity) {
-        this.areaOfInterestEntity = areaOfInterestEntity;
     }
 }
