@@ -35,9 +35,4 @@ public class StudentController {
     public ResponseData update(@RequestBody StudentUpdate studentInfo){
         return studentService.update(studentInfo);
     }
-
-    @GetMapping(path = "/find-mentor")
-    public ResponseData findMentorByAreaOfInterest(@PathVariable Long areaOfInterestId){
-        return null;
-    }
 }

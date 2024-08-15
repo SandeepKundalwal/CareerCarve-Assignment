@@ -36,12 +36,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId) {
-        LocalDate startDate = sessionStartTime.toLocalDate();
-        LocalTime startTime = sessionStartTime.toLocalTime();
-
-        if(startTime.isBefore(LocalTime.of(19, 0)) || startTime.plusMinutes(duration).isAfter(LocalTime.of(23,0))){
-            throw new CustomApplicationException(HttpStatus.CONFLICT, "Invalid Session Time");
-        }
 
         MentorEntity mentorEntity = mentorRepository.findById(mentorId)
                 .orElseThrow(() -> new CustomApplicationException(HttpStatus.CONFLICT, "Mentor does not exist"));
@@ -322,7 +316,7 @@ public class SessionServiceImpl implements SessionService {
 
         try {
             sessionRepository.save(sessionEntity);
-            responseData = new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), "Successfully Updated");
+            responseData = new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), "Successfully Updated.");
         } catch (DataAccessException e){
             throw new CustomApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.SERVER_INTERNAL_SERVER_ERROR.toString());
         }
@@ -330,20 +324,92 @@ public class SessionServiceImpl implements SessionService {
         return responseData;
     }
 
+    // should also handle if the mentor is not available on this particular date
     @Override
-    public ResponseData findSessionsBasedOnAreaOfInterest(Long areaOfInterestId, DayOfWeek dayOfWeek) {
-        if(dayOfWeek == DayOfWeek.SUNDAY){
+    public ResponseData findSessionsBasedOnAreaOfInterestAndDate(Long areaOfInterestId, LocalDate date) {
+        if(date.getDayOfWeek() == java.time.DayOfWeek.SUNDAY){
             throw new CustomApplicationException(HttpStatus.CONFLICT, "Scheduling Sessions on Sunday is not allowed");
         }
 
         AreaOfInterestEntity areaOfInterestEntity = areaOfInterestRepository.findById(areaOfInterestId)
                 .orElseThrow(() -> new RuntimeException("Area of Interest not found"));
 
-        List<MentorEntity> mentors = areaOfInterestEntity.getMentorEntities();
+        List<MentorEntity> allMentors = areaOfInterestEntity.getMentorEntities();
+
+        List<MentorEntityDTO> allMentorsDTO = new ArrayList<>();
+        for(MentorEntity mentorEntity : allMentors){
+            MentorEntityDTO mentorEntityDTO = new MentorEntityDTO(
+                    mentorEntity.getId(),
+                    mentorEntity.getName(),
+                    mentorEntity.getEmail(),
+                    mentorEntity.getMobileNo(),
+                    mentorEntity.getCompanyName(),
+                    mentorEntity.getJobTitle()
+            );
+
+            allMentorsDTO.add(mentorEntityDTO);
+        }
 
         Map<String, Object> retData = new LinkedHashMap<>();
-        retData.put("availableMentors", mentors);
-
+        retData.put("mentors", allMentorsDTO);
         return new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
+    }
+
+    @Override
+    public ResponseData showMentorAvailabilityOnParticularDate(Long mentorId, LocalDate date, long duration) {
+        MentorEntity mentorEntity = mentorRepository.findById(mentorId)
+                .orElseThrow(() -> new RuntimeException("Mentor not found"));
+
+        List<SessionEntity> mentorsBookedSessions;
+        try{
+            mentorsBookedSessions = sessionRepository.findBookedSessionOfMentorForAreaOfInterestAndDate(mentorId, date);
+        } catch (DataAccessException e){
+            throw new CustomApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.SERVER_INTERNAL_SERVER_ERROR.toString());
+        }
+
+        LocalDateTime earliestPossibleStart;
+        LocalDateTime latestPossibleEnd;
+        java.time.DayOfWeek day = date.getDayOfWeek();
+
+        if (day == java.time.DayOfWeek.SATURDAY) {
+            earliestPossibleStart = date.atTime(9, 0);
+            latestPossibleEnd = date.atTime(21, 0);
+        } else {
+            earliestPossibleStart = date.atTime(19, 0);
+            latestPossibleEnd = date.atTime(23, 0);
+        }
+
+        Map<String, Object> retData = new LinkedHashMap<>();
+        if (mentorsBookedSessions.isEmpty()) {
+            MentorAvailability mentorAvailability = new MentorAvailability(mentorId, earliestPossibleStart);
+            retData.put("mentorAvailability", mentorAvailability);
+            return new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
+        }
+
+        mentorsBookedSessions.sort(Comparator.comparing(SessionEntity::getSessionStartTime));
+
+        // Check for gaps between existing sessions
+        LocalDateTime candidateStart = earliestPossibleStart;
+        for (SessionEntity session : mentorsBookedSessions) {
+            LocalDateTime currentSessionStart = session.getSessionStartTime();
+            LocalDateTime currentSessionEnd = currentSessionStart.plusMinutes(session.getDuration());
+
+            if (!candidateStart.plusMinutes(duration).isAfter(currentSessionStart)) {
+                MentorAvailability mentorAvailability = new MentorAvailability(mentorId, earliestPossibleStart);
+                retData.put("mentorAvailability", mentorAvailability);
+                return new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
+            }
+
+            candidateStart = currentSessionEnd;
+        }
+
+        // If no gaps found, check after the last session
+        if (!candidateStart.plusMinutes(duration).isAfter(latestPossibleEnd)) {
+            MentorAvailability mentorAvailability = new MentorAvailability(mentorId, candidateStart);
+            retData.put("mentorAvailability", mentorAvailability);
+            return new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
+        }
+
+        return new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), "Mentor is not available for the selected date and duration");
     }
 }

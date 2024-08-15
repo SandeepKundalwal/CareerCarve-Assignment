@@ -83,7 +83,7 @@ public class MentorServiceImpl implements MentorService {
                             newMentorEntity.getEmail(),
                             newMentorEntity.getMobileNo());
 
-                    retData.put("user", userInfo);
+                    retData.put("mentor", userInfo);
                     responseData = new ResponseData(Response.Status.CREATED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
                 } else {
                     throw new CustomApplicationException(HttpStatus.CONFLICT, "Email-Id exists");
@@ -131,7 +131,8 @@ public class MentorServiceImpl implements MentorService {
                             mentorEntity.getName(),
                             mentorEntity.getEmail(),
                             mentorEntity.getMobileNo());
-                    retData.put("user", userInfo);
+
+                    retData.put("mentor", userInfo);
                     responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
                 } else {
                     throw new CustomApplicationException(HttpStatus.UNAUTHORIZED, ResponseCode.CLIENT_INVALID_REQ_PARAM_USERID_PASSWORD.toString());
@@ -150,7 +151,6 @@ public class MentorServiceImpl implements MentorService {
         String oldPassword = userPasswordChange.getPassword();
         String newPassword = userPasswordChange.getNewPassword();
 
-        Map<String, Object> retData = new LinkedHashMap<>();
         MentorEntity mentorEntity = null;
         try{
             mentorEntity = mentorRepository.findMentorByEmail(userName);
@@ -165,15 +165,11 @@ public class MentorServiceImpl implements MentorService {
                 String hashedPassword = mentorEntity.getPassword();
                 boolean validCredentials = BCrypt.checkpw(oldPassword, hashedPassword);
                 if(validCredentials){
-                    User userInfo = new User(mentorEntity.getId(),
-                            mentorEntity.getName(),
-                            mentorEntity.getEmail(),
-                            mentorEntity.getMobileNo());
 
                     mentorEntity.setPassword(newPassword);
                     mentorRepository.save(mentorEntity);
-                    retData.put("user", userInfo);
-                    responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
+
+                    responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), "Password Changed Successfully");
                 } else {
                     throw new CustomApplicationException(HttpStatus.UNAUTHORIZED, ResponseCode.CLIENT_INVALID_REQ_PARAM_USERID_PASSWORD.toString());
                 }
@@ -193,7 +189,6 @@ public class MentorServiceImpl implements MentorService {
         String userCompanyName = mentorInfo.getCompanyName();
         String userJobTitle = mentorInfo.getJobTitle();
         List<Long> areaOfInterestIds = mentorInfo.getAreasOfInterest();
-        List<AvailabilityEntity> availabilities = mentorInfo.getAvailabilities();
 
         Map<String, Object> retData = new LinkedHashMap<>();
         MentorEntity mentorEntity = null;
@@ -237,13 +232,30 @@ public class MentorServiceImpl implements MentorService {
                     mentorEntity.setAreasOfInterest(areasOfInterestListEntity);
                 }
 
-                if(availabilities != null){
-                    mentorEntity.setAvailabilities(availabilities);
-                }
-
                 mentorEntity = mentorRepository.save(mentorEntity);
 
-                retData.put("user", mentorEntity);
+                MentorUpdateDTO mentorUpdateDTO = new MentorUpdateDTO();
+                mentorUpdateDTO.setId(mentorEntity.getId());
+                mentorUpdateDTO.setName(mentorEntity.getName());
+                mentorUpdateDTO.setEmail(mentorEntity.getEmail());
+                mentorUpdateDTO.setMobileNo(mentorEntity.getMobileNo());
+                mentorUpdateDTO.setCompanyName(mentorEntity.getCompanyName());
+                mentorUpdateDTO.setJobTitle(mentorEntity.getJobTitle());
+
+                List<AreaOfInterestEntityDTO> areaOfInterestEntityDTOList = new ArrayList<>();
+                for(AreaOfInterestEntity areaOfInterestEntity : mentorEntity.getAreasOfInterest()){
+                    AreaOfInterestEntityDTO areaOfInterestEntityDTO = new AreaOfInterestEntityDTO(
+                            areaOfInterestEntity.getId(),
+                            areaOfInterestEntity.getName(),
+                            areaOfInterestEntity.getDescription()
+                    );
+
+                    areaOfInterestEntityDTOList.add(areaOfInterestEntityDTO);
+                }
+
+                mentorUpdateDTO.setAreaOfInterestEntityDTO(areaOfInterestEntityDTOList);
+
+                retData.put("mentor", mentorUpdateDTO);
                 responseData = new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
             } catch (DataAccessException e){
                 throw new CustomApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.SERVER_INTERNAL_SERVER_ERROR.toString());

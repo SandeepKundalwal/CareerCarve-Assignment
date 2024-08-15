@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
 
     @Query(value = "SELECT * FROM session s WHERE s.session_start_time > :currentDateTime AND s.mentor_id = :mentorId", nativeQuery = true)
     List<SessionEntity> findSessionAfterCurrentTimeAndByIdForMentor(@Param("currentDateTime") LocalDateTime currentDateTime, @Param("mentorId") Long mentorId);
+
+    @Query(value = "SELECT * FROM session s WHERE s.mentor_id = :mentorId AND DATE(s.session_start_time) = :date", nativeQuery = true)
+    List<SessionEntity> findBookedSessionOfMentorForAreaOfInterestAndDate(Long mentorId, LocalDate date);
 }

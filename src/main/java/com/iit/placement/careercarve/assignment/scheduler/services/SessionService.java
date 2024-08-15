@@ -5,11 +5,12 @@ import com.iit.placement.careercarve.assignment.scheduler.domain.entities.Sessio
 import com.iit.placement.careercarve.assignment.scheduler.models.ResponseData;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface SessionService {
 
-    ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime startTime, long duration, Long areaOfInterestId);
+    ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId);
 
     ResponseData previousSessionsOfStudent(Long studentId);
 
@@ -21,5 +22,7 @@ public interface SessionService {
 
     ResponseData updateSessionStatus(Long sessionId, SessionStatus status);
 
-    ResponseData findSessionsBasedOnAreaOfInterest(Long areaOfInterestId, DayOfWeek dayOfWeek);
+    ResponseData findSessionsBasedOnAreaOfInterestAndDate(Long areaOfInterestId, LocalDate date);
+
+    ResponseData showMentorAvailabilityOnParticularDate(Long mentorId, LocalDate date, long duration);
 }

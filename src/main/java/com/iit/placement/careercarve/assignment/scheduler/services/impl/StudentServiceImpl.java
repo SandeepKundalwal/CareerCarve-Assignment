@@ -100,7 +100,6 @@ public class StudentServiceImpl implements StudentService {
         String oldPassword = userPasswordChange.getPassword();
         String newPassword = userPasswordChange.getNewPassword();
 
-        Map<String, Object> retData = new LinkedHashMap<>();
         StudentEntity studentEntity = null;
         try{
             studentEntity = studentRepository.findStudentByEmail(userName);
@@ -115,14 +114,10 @@ public class StudentServiceImpl implements StudentService {
                 String hashedPassword = studentEntity.getPassword();
                 boolean validCredentials = BCrypt.checkpw(oldPassword, hashedPassword);
                 if(validCredentials){
-                    User userInfo = new User(studentEntity.getId(),
-                            studentEntity.getName(),
-                            studentEntity.getEmail(),
-                            studentEntity.getMobileNo());
                     studentEntity.setPassword(newPassword);
                     studentRepository.save(studentEntity);
-                    retData.put("user", userInfo);
-                    responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), retData);
+
+                    responseData = new ResponseData(Response.Status.ACCEPTED.getStatusCode(), ResponseCode.SUCCESS.getCode(), "Password Changes Successfully");
                 } else {
                     throw new CustomApplicationException(HttpStatus.UNAUTHORIZED, ResponseCode.CLIENT_INVALID_REQ_PARAM_USERID_PASSWORD.toString());
                 }
@@ -228,7 +223,14 @@ public class StudentServiceImpl implements StudentService {
 
                 studentEntity = studentRepository.save(studentEntity);
 
-                retData.put("user", studentEntity);
+                StudentEntityDTO studentEntityDTO = new StudentEntityDTO();
+                studentEntityDTO.setId(studentEntity.getId());
+                studentEntityDTO.setName(studentEntity.getName());
+                studentEntityDTO.setEmail(studentEntityDTO.getEmail());
+                studentEntityDTO.setMobileNo(studentEntity.getMobileNo());
+                studentEntityDTO.setCollegeName(studentEntityDTO.getCollegeName());
+
+                retData.put("user", studentEntityDTO);
                 responseData = new ResponseData(ResponseCode.SUCCESS.getCode(), Response.Status.OK.getStatusCode(), retData);
             } catch (DataAccessException e){
                 throw new CustomApplicationException(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.SERVER_INTERNAL_SERVER_ERROR.toString());

@@ -7,6 +7,8 @@ import com.iit.placement.careercarve.assignment.scheduler.models.ResponseData;
 import com.iit.placement.careercarve.assignment.scheduler.services.SessionService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.core.Response;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -20,8 +22,8 @@ public class SessionController {
     }
 
 
-    @PostMapping(path = "/create")
-    public ResponseData createSession(@RequestParam Long mentorId, @RequestParam Long studentId, @RequestParam LocalDateTime sessionStartTime,  @RequestParam long duration, @RequestParam Long areaOfInterestId){
+    @PostMapping(path = "/mentor/{mentorId}/book_session")
+    public ResponseData createSession(@PathVariable Long mentorId, @RequestParam Long studentId, @RequestParam LocalDateTime sessionStartTime,  @RequestParam long duration, @RequestParam Long areaOfInterestId){
         return sessionService.createNewSession(mentorId, studentId, sessionStartTime, duration, areaOfInterestId);
     }
 
@@ -51,7 +53,12 @@ public class SessionController {
     }
 
     @GetMapping("/area-of-interest/{areaOfInterestId}/all-sessions")
-    public ResponseData findSessionsBasedOnAreaOfInterest(@PathVariable Long areaOfInterestId, @RequestParam DayOfWeek dayOfWeek){
-        return sessionService.findSessionsBasedOnAreaOfInterest(areaOfInterestId, dayOfWeek);
+    public ResponseData findSessionsBasedOnAreaOfInterestAndDate(@PathVariable Long areaOfInterestId, @RequestParam LocalDate date){
+        return sessionService.findSessionsBasedOnAreaOfInterestAndDate(areaOfInterestId, date);
+    }
+
+    @GetMapping("/mentor/{mentorId}/scheduleSession")
+    public ResponseData showMentorAvailabilityOnParticularDate(@PathVariable Long mentorId, @RequestParam LocalDate date, @RequestParam long duration){
+        return sessionService.showMentorAvailabilityOnParticularDate(mentorId, date, duration);
     }
 }
