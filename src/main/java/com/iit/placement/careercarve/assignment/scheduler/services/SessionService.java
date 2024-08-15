@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public interface SessionService {
 
-    ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId);
+    ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId, Boolean isPremiumService);
 
     ResponseData previousSessionsOfStudent(Long studentId);
 

@@ -35,7 +35,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId) {
+    public ResponseData createNewSession(Long mentorId, Long studentId, LocalDateTime sessionStartTime, long duration, Long areaOfInterestId, Boolean isPremiumService) {
 
         MentorEntity mentorEntity = mentorRepository.findById(mentorId)
                 .orElseThrow(() -> new CustomApplicationException(HttpStatus.CONFLICT, "Mentor does not exist"));
@@ -53,6 +53,7 @@ public class SessionServiceImpl implements SessionService {
         sessionEntity.setSessionStartTime(sessionStartTime);
         sessionEntity.setDuration(duration);
         sessionEntity.setAreaOfInterest(areaOfInterestEntity);
+        sessionEntity.setPremium(isPremiumService);
         sessionEntity.setStatus(SessionStatus.SCHEDULED);
 
         try{

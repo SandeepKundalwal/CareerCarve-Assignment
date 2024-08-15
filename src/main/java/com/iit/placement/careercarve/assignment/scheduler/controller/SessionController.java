@@ -23,8 +23,8 @@ public class SessionController {
 
 
     @PostMapping(path = "/mentor/{mentorId}/book_session")
-    public ResponseData createSession(@PathVariable Long mentorId, @RequestParam Long studentId, @RequestParam LocalDateTime sessionStartTime,  @RequestParam long duration, @RequestParam Long areaOfInterestId){
-        return sessionService.createNewSession(mentorId, studentId, sessionStartTime, duration, areaOfInterestId);
+    public ResponseData createSession(@PathVariable Long mentorId, @RequestParam Long studentId, @RequestParam LocalDateTime sessionStartTime,  @RequestParam long duration, @RequestParam Long areaOfInterestId, @RequestParam(required = false, defaultValue = "false") Boolean isPremiumService){
+        return sessionService.createNewSession(mentorId, studentId, sessionStartTime, duration, areaOfInterestId, isPremiumService);
     }
 
     @GetMapping(path = "/student/{studentId}/previous_sessions")

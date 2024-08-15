@@ -37,10 +37,13 @@ public class SessionEntity {
     @Enumerated(EnumType.STRING)
     private SessionStatus status;
 
+    @Column(name = "isPremium")
+    private Boolean isPremium;
+
     public SessionEntity() {
     }
 
-    public SessionEntity(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterestEntity areaOfInterestEntity, LocalDateTime sessionStartTime, long duration, SessionStatus status) {
+    public SessionEntity(Long id, StudentEntity studentEntity, MentorEntity mentorEntity, AreaOfInterestEntity areaOfInterestEntity, LocalDateTime sessionStartTime, long duration, SessionStatus status, Boolean isPremium) {
         this.id = id;
         this.studentEntity = studentEntity;
         this.mentorEntity = mentorEntity;
@@ -48,6 +51,23 @@ public class SessionEntity {
         this.sessionStartTime = sessionStartTime;
         this.duration = duration;
         this.status = status;
+        this.isPremium = isPremium;
+    }
+
+    public AreaOfInterestEntity getAreaOfInterestEntity() {
+        return areaOfInterestEntity;
+    }
+
+    public void setAreaOfInterestEntity(AreaOfInterestEntity areaOfInterestEntity) {
+        this.areaOfInterestEntity = areaOfInterestEntity;
+    }
+
+    public Boolean getPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(Boolean premium) {
+        isPremium = premium;
     }
 
     public Long getId() {
