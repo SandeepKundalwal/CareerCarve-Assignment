@@ -1,9 +1,7 @@
 package com.iit.placement.careercarve.assignment.scheduler.services;
 
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.DayOfWeek;
 import com.iit.placement.careercarve.assignment.scheduler.domain.entities.SessionStatus;
 import com.iit.placement.careercarve.assignment.scheduler.models.ResponseData;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,9 +1,5 @@
 package com.iit.placement.careercarve.assignment.scheduler.models;
 
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AvailabilityEntity;
-
-import java.util.List;
-
 public class MentorEntityDTO {
     private Long id;
     private String name;

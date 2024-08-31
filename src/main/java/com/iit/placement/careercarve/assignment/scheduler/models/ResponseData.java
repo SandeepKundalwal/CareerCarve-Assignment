@@ -3,7 +3,6 @@ package com.iit.placement.careercarve.assignment.scheduler.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.xml.bind.annotation.*;
-import java.util.HashMap;
 import java.util.Map;
 
 @XmlRootElement (name="status")

@@ -31,11 +31,6 @@ public class StudentEntity {
     @Column(name = "college_name")
     private String collegeName;
 
-    @ManyToOne
-    @JoinColumn(name = "area_of_interest_id")
-    @JsonIgnore
-    private AreaOfInterestEntity areaOfInterestEntity;
-
     @OneToMany(mappedBy = "studentEntity")
     @JsonIgnore
     private List<SessionEntity> sessionEntities;
@@ -51,14 +46,13 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(String name, Long id, String email, String password, String mobileNo, String collegeName, AreaOfInterestEntity areaOfInterestEntity, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
+    public StudentEntity(String name, Long id, String email, String password, String mobileNo, String collegeName, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
         this.name = name;
         this.id = id;
         this.email = email;
         this.password = password;
         this.mobileNo = mobileNo;
         this.collegeName = collegeName;
-        this.areaOfInterestEntity = areaOfInterestEntity;
         this.sessionEntities = sessionEntities;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -120,14 +114,6 @@ public class StudentEntity {
 
     public void setCollegeName(String collegeName) {
         this.collegeName = collegeName;
-    }
-
-    public AreaOfInterestEntity getAreaOfInterest() {
-        return areaOfInterestEntity;
-    }
-
-    public void setAreaOfInterest(AreaOfInterestEntity areaOfInterestEntity) {
-        this.areaOfInterestEntity = areaOfInterestEntity;
     }
 
     public List<SessionEntity> getSessions() {

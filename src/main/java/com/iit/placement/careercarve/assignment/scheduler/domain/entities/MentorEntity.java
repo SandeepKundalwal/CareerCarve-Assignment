@@ -35,10 +35,6 @@ public class MentorEntity {
     @Column(name = "job_title")
     private String jobTitle;
 
-    @OneToMany(mappedBy = "mentorEntity")
-    @JsonIgnore
-    private List<AvailabilityEntity> availabilities;
-
     @ManyToMany
     @JoinTable(
             name = "mentor_expertise_mapping",
@@ -62,7 +58,7 @@ public class MentorEntity {
     public MentorEntity() {
     }
 
-    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<AvailabilityEntity> availabilities, List<AreaOfInterestEntity> areasOfInterestEntity, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
+    public MentorEntity(Long id, String name, String email, String password, String mobileNo, String companyName, String jobTitle, List<AreaOfInterestEntity> areasOfInterestEntity, List<SessionEntity> sessionEntities, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -70,7 +66,6 @@ public class MentorEntity {
         this.mobileNo = mobileNo;
         this.companyName = companyName;
         this.jobTitle = jobTitle;
-        this.availabilities = availabilities;
         this.areasOfInterestEntity = areasOfInterestEntity;
         this.sessionEntities = sessionEntities;
         this.createdAt = createdAt;
@@ -131,14 +126,6 @@ public class MentorEntity {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
-    }
-
-    public List<AvailabilityEntity> getAvailabilities() {
-        return availabilities;
-    }
-
-    public void setAvailabilities(List<AvailabilityEntity> availabilities) {
-        this.availabilities = availabilities;
     }
 
     public List<AreaOfInterestEntity> getAreasOfInterest() {

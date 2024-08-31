@@ -1,7 +1,6 @@
 package com.iit.placement.careercarve.assignment.scheduler.services.impl;
 
 import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AreaOfInterestEntity;
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AvailabilityEntity;
 import com.iit.placement.careercarve.assignment.scheduler.domain.entities.MentorEntity;
 import com.iit.placement.careercarve.assignment.scheduler.exception.CustomApplicationException;
 import com.iit.placement.careercarve.assignment.scheduler.models.*;

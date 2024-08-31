@@ -23,14 +23,12 @@ public class SessionServiceImpl implements SessionService {
     private final MentorRepository mentorRepository;
     private final StudentRepository studentRepository;
     private final SessionRepository sessionRepository;
-    private final AvailabilityRepository availabilityRepository;
     private final AreaOfInterestRepository areaOfInterestRepository;
 
-    public SessionServiceImpl(MentorRepository mentorRepository, StudentRepository studentRepository, SessionRepository sessionRepository, AvailabilityRepository availabilityRepository, AreaOfInterestRepository areaOfInterestRepository) {
+    public SessionServiceImpl(MentorRepository mentorRepository, StudentRepository studentRepository, SessionRepository sessionRepository, AreaOfInterestRepository areaOfInterestRepository) {
         this.mentorRepository = mentorRepository;
         this.studentRepository = studentRepository;
         this.sessionRepository = sessionRepository;
-        this.availabilityRepository = availabilityRepository;
         this.areaOfInterestRepository = areaOfInterestRepository;
     }
 

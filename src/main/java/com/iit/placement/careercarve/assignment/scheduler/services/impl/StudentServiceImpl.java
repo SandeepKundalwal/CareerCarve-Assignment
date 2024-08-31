@@ -217,10 +217,6 @@ public class StudentServiceImpl implements StudentService {
                     studentEntity.setCollegeName(userCollegeName);
                 }
 
-                if(areaOfInterestEntity != null){
-                   studentEntity.setAreaOfInterest(areaOfInterestEntity);
-                }
-
                 studentEntity = studentRepository.save(studentEntity);
 
                 StudentEntityDTO studentEntityDTO = new StudentEntityDTO();

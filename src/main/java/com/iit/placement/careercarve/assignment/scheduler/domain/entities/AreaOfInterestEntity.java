@@ -20,10 +20,6 @@ public class AreaOfInterestEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "areaOfInterestEntity")
-    @JsonIgnore
-    private List<StudentEntity> studentEntities;
-
     @ManyToMany(mappedBy = "areasOfInterestEntity")
     @JsonIgnore
     private List<MentorEntity> mentorEntities;
@@ -35,11 +31,10 @@ public class AreaOfInterestEntity {
     public AreaOfInterestEntity() {
     }
 
-    public AreaOfInterestEntity(Long id, String name, String description, List<StudentEntity> studentEntities, List<MentorEntity> mentorEntities, List<SessionEntity> sessionEntities) {
+    public AreaOfInterestEntity(Long id, String name, String description, List<MentorEntity> mentorEntities, List<SessionEntity> sessionEntities) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.studentEntities = studentEntities;
         this.mentorEntities = mentorEntities;
         this.sessionEntities = sessionEntities;
     }
@@ -66,14 +61,6 @@ public class AreaOfInterestEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<StudentEntity> getStudentEntities() {
-        return studentEntities;
-    }
-
-    public void setStudentEntities(List<StudentEntity> studentEntities) {
-        this.studentEntities = studentEntities;
     }
 
     public List<MentorEntity> getMentorEntities() {

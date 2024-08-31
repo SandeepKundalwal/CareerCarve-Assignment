@@ -1,13 +1,10 @@
 package com.iit.placement.careercarve.assignment.scheduler.controller;
 
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.DayOfWeek;
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.SessionEntity;
 import com.iit.placement.careercarve.assignment.scheduler.domain.entities.SessionStatus;
 import com.iit.placement.careercarve.assignment.scheduler.models.ResponseData;
 import com.iit.placement.careercarve.assignment.scheduler.services.SessionService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

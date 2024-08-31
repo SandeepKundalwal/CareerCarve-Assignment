@@ -1,8 +1,6 @@
 package com.iit.placement.careercarve.assignment.scheduler.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AreaOfInterestEntity;
-import com.iit.placement.careercarve.assignment.scheduler.domain.entities.AvailabilityEntity;
 
 import java.util.List;
 
@@ -23,9 +21,6 @@ public class MentorUpdate {
     @JsonProperty("job_title")
     private String jobTitle;
 
-    @JsonProperty("availabilities")
-    private List<AvailabilityEntity> availabilities;
-
     @JsonProperty("areas_of_interest")
     private List<Long> areasOfInterest;
 
@@ -37,14 +32,12 @@ public class MentorUpdate {
                         String mobileNo,
                         String companyName,
                         String jobTitle,
-                        List<AvailabilityEntity> availabilities,
                         List<Long> areasOfInterest) {
         this.name = name;
         this.email = email;
         this.mobileNo = mobileNo;
         this.companyName = companyName;
         this.jobTitle = jobTitle;
-        this.availabilities = availabilities;
         this.areasOfInterest = areasOfInterest;
     }
 
@@ -86,14 +79,6 @@ public class MentorUpdate {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
-    }
-
-    public List<AvailabilityEntity> getAvailabilities() {
-        return availabilities;
-    }
-
-    public void setAvailabilities(List<AvailabilityEntity> availabilities) {
-        this.availabilities = availabilities;
     }
 
     public List<Long> getAreasOfInterest() {
